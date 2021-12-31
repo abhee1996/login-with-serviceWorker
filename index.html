@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Practice Form Log In</h1>
+    <form id="form">
+        <input type="text" placeholder="First Name" id="fname" name="fname"><br>
+        <input type="text" placeholder="Last Name" id="lname" name="lname"><br>
+        <input type="text" placeholder="age" id="age" name="age"><br>
+        <input type="button" id='login' value="login" />
+        <input type="button" id='remove' value="remove from local storage" />
+        <div id="output"></div>
+    </form>
+    <script src="./login.js"></script>
+
+    <script src="./serviceWorker.js"></script>
+
+    <!-- 1. register service worker -->
+    <script>
+        //service worker work saperately from your work
+        //you just tell service worker to linked with your files and start cache them
+        //here we are just doing this
+        const pathToJson = `https://jsonplaceholder.typicode.com/users`
+        const output = document.getElementById('output')
+        //const pathToJson = '/path/to/file.json';
+        const swUrl = '/serviceWorker.js?pathToJson=' + encodeURIComponent(pathToJson);
+        if ('serviceWorker' in navigator) {
+            //navigator means browser
+            window.navigator.serviceWorker.register(swUrl)
+                .then(function () {
+                    var sw;
+                    // app.js - somewhere in our main app
+                    const messageChannel = new MessageChannel();
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'INIT_PORT',
+                    }, [messageChannel.port2]);
+               
+                    messageChannel.port1.onmessage = (event) => {
+                        // Print the result
+                        output.innerHTML = event.data.payload[2]//.name;
+                        console.log('event.data.payload usersData',event.data.payload[2] );
+                        
+                        console.log('event.data.payload tetx',event.data.payload[1] + " " + event.data.payload[0]);
+                    };
+                    // Then we send our first message
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'INCREASE_COUNT',
+                    });
+                    navigator.serviceWorker.ready.then(registration => {
+                        sw = registration.active.postMessage('my message ');
+                    });
+
+          
+                }
+                ).catch(err => {
+                    console.info('service worker failed to registered', err)
+                })
+        }
+        else {
+            console.info('service worker not supported')
+        }
+    </script>
+   
+</body>
+
+</html>
