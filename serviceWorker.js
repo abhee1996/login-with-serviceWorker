@@ -1,7 +1,7 @@
 //1.registering service worker (which we done in html file with in script tags)
 
 //create app version
-var appVersion = 'v.1.28'
+var appVersion = 'v.1.30'
 
 // files you want to save as cache
 var files = [
@@ -9,6 +9,8 @@ var files = [
     './index.html',
     './login.js',
     './serviceWorker.js',
+    `./welcomePage.html`,
+
     `https://jsonplaceholder.typicode.com/users`,
 ]
 //2.install (we say service worker to start cache our files)

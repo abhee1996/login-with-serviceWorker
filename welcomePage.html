@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <br>
+    <button id="showApi"> show api</button>
+    <br>
+    <div id="showApiData"></div>
+
+
+    <script>
+        var showApi = document.getElementById('showApi')
+        var showApiData = document.getElementById('showApiData')
+        const messageChannel = new MessageChannel();
+        let getPerson = JSON.parse(localStorage.getItem('person'))
+
+        showApi.addEventListener('click', function () {
+            showApiData.innerText = `hello welcome ${getPerson.name}`
+            messageChannel.port1.onmessage = (event) => {
+                showApiData.innerHTML = event.data.payload[2]
+            }
+
+        })
+        // console.log('event.data.payload usersData', event.data.payload[2]);
+
+        //const swUrl = '/serviceWorker.js?pathToJson=' //+ encodeURIComponent(pathToJson);
+        if ('serviceWorker' in navigator) {
+            //navigator means browser
+            var swrkUrl = `./serviceWorker.js`
+            window.navigator.serviceWorker.register(swrkUrl)
+                .then(function () {
+                    var sw;
+                    // app.js - somewhere in our main app
+                    const messageChannel = new MessageChannel();
+                    // navigator.serviceWorker.controller.postMessage({
+                    //     type: 'INIT_PORT',
+                    // }, [messageChannel.port2]);
+
+                    messageChannel.port1.onmessage = (event) => {
+                        // Print the result
+                        debugger;
+                        showApi.addEventListener('click', function () {
+                            showApiData.innerText = `hello welcome ${getPerson.name}`
+
+                            messageChannel.port1.onmessage = (event) => {
+                                showApiData.innerHTML = event.data.payload[2]
+                            }
+
+                        })
+                        showApiData.innerHTML = event.data.payload[2]//.name;
+                        console.log('event.data.payload usersData', event.data.payload[2]);
+
+                        console.log('event.data.payload tetx', event.data.payload[1] + " " + event.data.payload[0]);
+                    };
+                })
+        }
+    </script>
+
+</body>
+
+</html>

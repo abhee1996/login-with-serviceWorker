@@ -15,20 +15,28 @@ function login() {
     if (localStorage.length >= 0) {
         if (fn !== '' && ln !== '') {
             window.localStorage.setItem('person', JSON.stringify(person))
-            let getPerson = JSON.parse(localStorage.getItem('person'))
-            document.write(`welcome back  ${getPerson.name} 
-            <br>
-            <button id="showApi" > show api</button>
-            <br>
-            <div id="showApiData" ></div>
-            <script>
-            var showApi =document.getElementById('showApi')
-            var showApiData = document.getElementById('showApiData')
-            showApi.addEventListener('click',function(){
-                showApiData.innerText = "hello" +" " + event.data.payload[2]
-            })
-            </script>
-            `)
+            //let getPerson = JSON.parse(localStorage.getItem('person'))
+            window.location.href = './welcomePage.html';
+            
+            // document.write(`welcome back  ${getPerson.name} 
+            // <br>
+            // <button id="showApi" > show api</button>
+            // <br>
+            // <div id="showApiData" ></div>
+            // <script>
+            // var showApi =document.getElementById('showApi')
+            // var showApiData = document.getElementById('showApiData')
+            // const messageChannel = new MessageChannel();
+
+            // showApi.addEventListener('click',function(){
+            //     showApiData.innerText = "hello" 
+            //     messageChannel.port1.onmessage = (event) => {
+            //         showApiData.innerHTML = event.data.payload[2]
+            //     }
+
+            // })
+            // </script>
+            // `)
 
         }
         else {
